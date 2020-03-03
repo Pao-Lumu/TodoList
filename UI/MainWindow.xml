@@ -1,0 +1,60 @@
+<GuiXml>
+    <Controls>
+        <Control name="Item" virtual="true">
+            <Dimensions y="30" />
+            <Anchor point="TOPLEFT" />
+            <Anchor point="TOPRIGHT" />
+            <Controls>
+
+                <Button name="$(parent)Tick">
+                    <Dimensions x="30" y="30" />
+                    <Anchor point="LEFT" xOffset="-30"/>
+    
+                    <!-- esoui\art\buttons\checkbox_checked.dds
+                            esoui\art\buttons\checkbox_checked_disabled.dds
+                            esoui\art\buttons\checkbox_disabled.dds
+                            esoui\art\buttons\checkbox_indeterminate.dds
+                            esoui\art\buttons\checkbox_mouseover.dds
+                            esoui\art\buttons\checkbox_unchecked.dds -->
+                    <Textures
+                        normal="esoui\art\buttons\checkbox_unchecked.dds"
+                        mouseOver="esoui\art\buttons\checkbox_mouseover.dds"
+                        pressed="esoui\art\buttons\checkbox_indeterminate.dds"
+                        disabled="esoui\art\buttons\checkbox_checked.dds"
+                    />
+                </Button>
+
+                <Backdrop name="$(parent)Box" inherits="ZO_SingleLineEditBackdrop_Keyboard">
+                    <Anchor point="TOPLEFT" />
+                    <Anchor point="TOPRIGHT" />
+
+                    <Controls>
+                        <EditBox name="$(parent)Edit" inherits="ZO_DefaultEditForBackdrop" maxInputCharacters="50" />
+
+                    </Controls>
+                </Backdrop>
+            </Controls>
+        </Control>
+
+        <TopLevelControl name="GJTDL_MainWindowControl" tier="HIGH" clampedToScreen="true" mouseEnabled="true" movable="true">
+            <Dimensions x="400" y="500" />
+            <OnMouseDoubleClick>
+                TodoList.MainWindow.AddNewLine()
+            </OnMouseDoubleClick>
+
+            <Controls>
+                <Backdrop name="$(parent)Background" inherits="ZO_DefaultBackdrop" />
+
+                <Label name="$(parent)Label" font="ZoFontAnnounceMedium" text="To-Do:">
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20"/>
+                </Label>
+
+                <Control name="$(parent)List">
+                    <Dimensions y="450" />
+                    <Anchor point="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" />
+                </Control>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>
