@@ -1,32 +1,40 @@
 <GuiXml>
     <Controls>
+
+
+        <!-- <Button name="ZO_DefaultTextButton" font="ZoFontGame" inherits="ZO_ButtonBehaviorClickSound" verticalAlignment="CENTER" virtual="true">
+            <Dimensions x="128" y="26" />
+            <PressedOffset x="1" y="1" />
+
+            <FontColors
+                normalColor="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"
+                pressedColor="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED"
+                mouseOverColor="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_HIGHLIGHT"
+                disabledColor="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_DISABLED"
+            />
+        </Button> -->
+
+
         <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
         <Control name="Tab" virtual="true">
             <Dimensions y="30" />
-            <Anchor point="TOPLEFT" />
+            <Anchor point="LEFT" />
             <Anchor point="TOPRIGHT" />
+
             <Controls>
-                <!-- If Double-clicked: Edit Tab Name -->
-                <Button name="$(parent)Button" resizetoFitDescendents="true">
-                    <Dimensions x="30" y="30" />
+                <Button name="$(parent)Button"  text="Tab" verticalAlignment="LEFT" inherits="ZO_DefaultTextButton">
+                    <Dimensions x="41" />
                     <Anchor point="LEFT" />
 
-                    <OnMouseDoubleClick>
-                        ShowTabEditBox(self, control)
-                    </OnMouseDoubleClick>
+                    <OnClicked>
+                        TodoList.MainWindow.ShowTabEditBox(self, control)
+                    </OnClicked>
                 </Button>
-                <EditBox name="$(parent)Edit" inherits="ZO_DefaultEditForBackdrop" maxInputCharacters="15">
-                    <OnFocusLost>
-                        ShowTabButton(self, true)
-                    </OnFocusLost>
-                    <OnEnter>
-                        ShowTabButton(self, true)
-                    </OnEnter>
-                    <OnEscape>
-                        ShowTabButton(self, false)
-                    </OnEscape>
-                </EditBox>
-
+                <Backdrop name="$(parent)Box" inherits="ZO_SingleLineEditBackdrop_Keyboard" hidden="true">
+                    <Controls>
+                        <EditBox name="$(parent)Edit" editEnabled="true" inherits="ZO_DefaultEdit" maxInputCharacters="15" text="Tab" />
+                    </Controls>
+                </Backdrop>
             </Controls>
         </Control>
 
@@ -40,7 +48,7 @@
 
                 <Button name="$(parent)Tick">
                     <Dimensions x="30" y="30" />
-                    <Anchor point="LEFT" xOffset="-30"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)Box" relativePoint="LEFT" xOffset="-30" />
 
                     <Textures normal="esoui\art\buttons\checkbox_unchecked.dds" mouseOver="esoui\art\buttons\checkbox_mouseover.dds" pressed="esoui\art\buttons\checkbox_indeterminate.dds" disabled="esoui\art\buttons\checkbox_checked.dds" />
                 </Button>
@@ -62,27 +70,27 @@
         <TopLevelControl name="GJTDL_MainWindowControl" tier="HIGH" clampedToScreen="true" mouseEnabled="true" movable="true">
             <Dimensions x="400" y="500" />
             <OnMouseDoubleClick>
-                AddLine()
+                TodoList.MainWindow.AddLine()
             </OnMouseDoubleClick>
 
             <Controls>
                 <Backdrop name="$(parent)Background" inherits="ZO_DefaultBackdrop" />
 
                 <Label name="$(parent)Label" font="ZoFontAnnounceMedium" text="To-Do:">
-                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20"/>
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20" />
                 </Label>
 
                 <Control name="$(parent)Switcher">
                     <Dimensions y="30" />
-                    <Anchor point="TOPLEFT" xOffset="20" yOffset="30">
-                    </Control>
+                    <Anchor point="TOPLEFT" xOffset="20" yOffset="30" />
+                </Control>
 
-                    <Control name="$(parent)List">
-                        <Dimensions y="450" />
-                        <Anchor point="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" />
-                    </Control>
-                </Controls>
-            </TopLevelControl>
-        </Controls>
-    </GuiXml>
+                <Control name="$(parent)List">
+                    <Dimensions y="450" />
+                    <Anchor point="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" />
+                </Control>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>
