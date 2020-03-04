@@ -6,11 +6,14 @@ local m_fragment
 local m_minimizedFragment
 local m_isFragmentAddedToScenes = false
 local m_isMinimizedFragmentAddedToScenes = false
+
 local m_defaultListLength = 3
 local m_currentListLength = 0
-local m_defaultTabCount = 1
-local m_currentTabCount = 0
+local m_maxListLength = 10
 
+local m_defaultTabCount = 2
+local m_currentTabCount = 0
+local m_maxTabCount = 5
 
 local function SavePosition()
     local savedAccountVariables = TodoList.SavedAccountVariables
@@ -47,13 +50,37 @@ local function SetWindowHeight(height)
 end
 TodoList.MainWindow.SetWindowHeight = SetWindowHeight
 
-function TodoList.MainWindow.AddNewLine()
-    local dynamicControl =
-        CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "Item", m_currentListLength + 1)
-    -- dynamicControl:ClearAnchors()
-    dynamicControl:SetAnchor(TOPLEFT, GJTDL_MainWindowControlList, TOPLEFT, 35, 40 * m_currentListLength)
-    dynamicControl:SetAnchor(TOPRIGHT, GJTDL_MainWindowControlList, TOPRIGHT, -15, 40 * m_currentListLength)
+local function AddLine()
+    local line = CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "Item", m_currentListLength + 1)
+    line:SetAnchor(TOPLEFT, GJTDL_MainWindowControlList, TOPLEFT, 35, 40 * m_currentListLength)
+    line:SetAnchor(TOPRIGHT, GJTDL_MainWindowControlList, TOPRIGHT, -15, 40 * m_currentListLength)
     m_currentListLength = m_currentListLength + 1
+end
+
+local function AddTab()
+    local tab = CreateControlFromVirtual("$(parent)Tab", GJTDL_MainWindowControlSwitcher, "Tab", m_currentTabCount + 1)
+    tab:SetAnchor(LEFT, GJTDL_MainWindowControlSwitcher, LEFT, 10, 40 * m_currentTabCount)
+    tab:SetText("Tab " .. (m_currentTabCount + 1))
+    m_currentTabCount = m_currentTabCount + 1
+end
+
+local function ShowTabEditBox(self, control)
+    local tab = control
+    local editbox = control:GetParent().GetNamedChild(control:GetParent() .. "Edit")
+    tab:SetEnabled(false):SetHidden(true)
+    editbox:SetHidden(false):SetMouseEnabled(true):SetKeyboardEnabled(true):SetText(tab:GetText()):TakeFocus()
+end
+
+local function ShowTabButton(self, shouldSave)
+    local tab = control:GetParent().GetNamedChild(control:GetParent() .. "Button")
+    local editbox = control
+
+    editbox:SetMouseEnabled(false):SetKeyboardEnabled(false):SetHidden(true)
+    tab:SetHidden(false):SetEnabled(true)
+
+    if shouldSave then
+        tab:SetText(editbox:GetText())
+    end
 end
 
 function TodoList.MainWindow.Initialize()
@@ -63,10 +90,13 @@ function TodoList.MainWindow.Initialize()
     m_mainWindowControl:ClearAnchors()
     m_mainWindowControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 20, 20)
     m_mainWindowControl:SetHandler("OnMoveStop", SavePosition)
-    -- m_mainWindowControl:SetNormalFontColor(0)
 
     for i = 1, m_defaultListLength do
-        TodoList.MainWindow.AddNewLine()
+        AddLine()
+    end
+
+    for i = 1, m_defaultTabCount do
+        AddTab()
     end
 
     m_fragment = ZO_SimpleSceneFragment:New(m_mainWindowControl)

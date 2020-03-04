@@ -1,5 +1,37 @@
 <GuiXml>
     <Controls>
+        <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
+        <Control name="Tab" virtual="true">
+            <Dimensions y="30" />
+            <Anchor point="TOPLEFT" />
+            <Anchor point="TOPRIGHT" />
+            <Controls>
+                <!-- If Double-clicked: Edit Tab Name -->
+                <Button name="$(parent)Button" resizetoFitDescendents="true">
+                    <Dimensions x="30" y="30" />
+                    <Anchor point="LEFT" />
+
+                    <OnMouseDoubleClick>
+                        ShowTabEditBox(self, control)
+                    </OnMouseDoubleClick>
+                </Button>
+                <EditBox name="$(parent)Edit" inherits="ZO_DefaultEditForBackdrop" maxInputCharacters="15">
+                    <OnFocusLost>
+                        ShowTabButton(self, true)
+                    </OnFocusLost>
+                    <OnEnter>
+                        ShowTabButton(self, true)
+                    </OnEnter>
+                    <OnEscape>
+                        ShowTabButton(self, false)
+                    </OnEscape>
+                </EditBox>
+
+            </Controls>
+        </Control>
+
+
+        <!-- ~~~~~~~~~~ LIST ITEM ~~~~~~~~~~ -->
         <Control name="Item" virtual="true">
             <Dimensions y="30" />
             <Anchor point="TOPLEFT" />
@@ -9,19 +41,8 @@
                 <Button name="$(parent)Tick">
                     <Dimensions x="30" y="30" />
                     <Anchor point="LEFT" xOffset="-30"/>
-    
-                    <!-- esoui\art\buttons\checkbox_checked.dds
-                            esoui\art\buttons\checkbox_checked_disabled.dds
-                            esoui\art\buttons\checkbox_disabled.dds
-                            esoui\art\buttons\checkbox_indeterminate.dds
-                            esoui\art\buttons\checkbox_mouseover.dds
-                            esoui\art\buttons\checkbox_unchecked.dds -->
-                    <Textures
-                        normal="esoui\art\buttons\checkbox_unchecked.dds"
-                        mouseOver="esoui\art\buttons\checkbox_mouseover.dds"
-                        pressed="esoui\art\buttons\checkbox_indeterminate.dds"
-                        disabled="esoui\art\buttons\checkbox_checked.dds"
-                    />
+
+                    <Textures normal="esoui\art\buttons\checkbox_unchecked.dds" mouseOver="esoui\art\buttons\checkbox_mouseover.dds" pressed="esoui\art\buttons\checkbox_indeterminate.dds" disabled="esoui\art\buttons\checkbox_checked.dds" />
                 </Button>
 
                 <Backdrop name="$(parent)Box" inherits="ZO_SingleLineEditBackdrop_Keyboard">
@@ -36,10 +57,12 @@
             </Controls>
         </Control>
 
+        <!-- Primary Definition -->
+
         <TopLevelControl name="GJTDL_MainWindowControl" tier="HIGH" clampedToScreen="true" mouseEnabled="true" movable="true">
             <Dimensions x="400" y="500" />
             <OnMouseDoubleClick>
-                TodoList.MainWindow.AddNewLine()
+                AddLine()
             </OnMouseDoubleClick>
 
             <Controls>
@@ -49,12 +72,17 @@
                     <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20"/>
                 </Label>
 
-                <Control name="$(parent)List">
-                    <Dimensions y="450" />
-                    <Anchor point="BOTTOMLEFT" />
-                    <Anchor point="BOTTOMRIGHT" />
-                </Control>
-            </Controls>
-        </TopLevelControl>
-    </Controls>
-</GuiXml>
+                <Control name="$(parent)Switcher">
+                    <Dimensions y="30" />
+                    <Anchor point="TOPLEFT" xOffset="20" yOffset="30">
+                    </Control>
+
+                    <Control name="$(parent)List">
+                        <Dimensions y="450" />
+                        <Anchor point="BOTTOMLEFT" />
+                        <Anchor point="BOTTOMRIGHT" />
+                    </Control>
+                </Controls>
+            </TopLevelControl>
+        </Controls>
+    </GuiXml>

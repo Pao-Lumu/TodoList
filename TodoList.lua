@@ -5,7 +5,6 @@ local m_mainWindow = {}
 local m_listItems = {}
 local m_listTabs = {}
 
--- First, we create a namespace for our addon by declaring a top-level table that will hold everything else.
 TodoList = {
     GetName = function()
         return m_name
@@ -15,15 +14,14 @@ TodoList = {
     Tabs = m_listTabs
 }
 
--- Next we create a function that will initialize our addon
 function TodoList:Initialize()
     zo_callLater(
         function()
-            d("Hello Tamriel!")
+            m_mainWindow.Initialize()
         end,
         2000
     )
-    m_mainWindow.Initialize()
+    d("Todo List Loaded sucessfully!")
 end
 
 function TodoList.OnAddOnLoaded(event, addonName)
@@ -31,9 +29,6 @@ function TodoList.OnAddOnLoaded(event, addonName)
         return
     end
     EVENT_MANAGER:UnregisterForEvent(m_name, EVENT_ADD_ON_LOADED)
-
-    -- m_savedAccountVariables = ZO_SavedVars:NewAccountWide("GJTodoListVariables", 1, nil, TodoList.AccountVariables)
-    -- m_savedLocalVariables = ZO_SavedVars:NewCharacterIdSettings("GJTodoListVariables", 2, nil, TodoList.LocalVariables)
 
     m_savedAccountVariables = LibSavedVars
         :NewCharacterSettings("GJTDL_vars", "Characters", {})
@@ -45,5 +40,4 @@ function TodoList.OnAddOnLoaded(event, addonName)
     TodoList:Initialize()
 end
 
--- Finally, we'll register our event handler function to be called when the proper event occurs.
 EVENT_MANAGER:RegisterForEvent(m_name, EVENT_ADD_ON_LOADED, TodoList.OnAddOnLoaded)
