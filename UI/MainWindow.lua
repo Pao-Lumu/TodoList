@@ -51,14 +51,14 @@ local function SetWindowHeight(height)
 end
 TodoList.MainWindow.SetWindowHeight = SetWindowHeight
 
-local function AddLine()
+function TodoList.MainWindow.AddLine()
     local line = CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "GJTDL_ListItem", m_currentListLength + 1)
     line:SetAnchor(TOPLEFT, GJTDL_MainWindowControlList, TOPLEFT, 35, 40 * m_currentListLength)
     line:SetAnchor(TOPRIGHT, GJTDL_MainWindowControlList, TOPRIGHT, -15, 40 * m_currentListLength)
     m_currentListLength = m_currentListLength + 1
 end
 
-local function AddTab()
+function TodoList.MainWindow.AddTab()
     local tab = CreateControlFromVirtual("$(parent)Tab", GJTDL_MainWindowControlSwitcher, "GJTDL_ListTab", m_currentTabCount + 1)
     if m_lastTab then
         tab:SetAnchor(LEFT, m_lastTab, RIGHT, 45, 0)
@@ -72,15 +72,24 @@ local function AddTab()
     m_lastTab = tab
 end
 
-function ToggleCompletion(button)
+function TodoList.MainWindow.ToggleCompletion(button)
+    -- TODO: ADD GREYING-OUT TEXT/BOX
+
     ZO_CheckButton_OnClicked(button)
     local checked = ZO_CheckButton_IsChecked(button)
-    button:GetParent():GetNamedChild("$(parent)")
+    local editbox = button:GetParent():GetNamedChild("BoxEdit")
+    -- d(editbox:GetName())
+    -- d(parent:GetChild(2):GetName())
     if checked then
-        d("Checked!")
-
+        -- d("Checked!")
+        editbox:SetEditEnabled(false)
+        editbox:SetKeyboardEnabled(false)
+        editbox:SetMouseEnabled(false)
     else
-        d("Unchecked!")
+        -- d("Unchecked!")
+        editbox:SetEditEnabled(true)
+        editbox:SetKeyboardEnabled(true)
+        editbox:SetMouseEnabled(true)
     end
 end
 

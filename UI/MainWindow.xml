@@ -3,7 +3,7 @@
         <Button name="GJTDL_ListTick" inherits="ZO_CheckButton" virtual="true">
             OVERRIDE THIS AND CALL ZO_CheckButton_OnClicked()!
             <OnClicked override="true">
-                ToggleCompletion(self, button)
+                TodoList.MainWindow.ToggleCompletion(self, button)
             </OnClicked>
         </Button>
 
@@ -15,6 +15,7 @@
 
         <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
         <Button name="GJTDL_ListTab" inherits="ZO_ResizableTextTabButton" virtual="true" text="Tab">
+            <OnMouseEnter />
         </Button>
 
         <!-- ~~~~~~~~~~ LIST ITEM ~~~~~~~~~~ -->
@@ -26,7 +27,7 @@
 
                 <Button name="$(parent)Tick" inherits="GJTDL_ListTick">
                     <Dimensions x="30" y="30" />
-                    <Anchor point="LEFT" xOffset="-30"/>
+                    <Anchor point="RIGHT" relativeTo="$(parent)Box" relativePoint="LEFT" xOffset="-30"/>
                 </Button>
 
                 <Backdrop name="$(parent)Box" inherits="ZO_SingleLineEditBackdrop_Keyboard">
