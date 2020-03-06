@@ -1,4 +1,3 @@
-local m_defaultHeight = 500
 local m_mainWindowControl
 local m_minimizedWindowControl
 
@@ -25,7 +24,6 @@ end
 local function SetWindowHeight(height)
     local guiRootHeight = GuiRoot:GetHeight()
     local savedAccountVariables = TodoList.SavedAccountVariables
-    height = height + m_defaultHeight
 
     if m_mainWindowControl:GetTop() + height > guiRootHeight then
         m_mainWindowControl:ClearAnchors()
@@ -52,14 +50,26 @@ end
 TodoList.MainWindow.SetWindowHeight = SetWindowHeight
 
 function TodoList.MainWindow.AddLine()
-    local line = CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "GJTDL_ListItem", m_currentListLength + 1)
+    local line =
+        CreateControlFromVirtual(
+        "$(parent)Item",
+        GJTDL_MainWindowControlList,
+        "GJTDL_ListItem",
+        m_currentListLength + 1
+    )
     line:SetAnchor(TOPLEFT, GJTDL_MainWindowControlList, TOPLEFT, 35, 40 * m_currentListLength)
     line:SetAnchor(TOPRIGHT, GJTDL_MainWindowControlList, TOPRIGHT, -15, 40 * m_currentListLength)
     m_currentListLength = m_currentListLength + 1
 end
 
 function TodoList.MainWindow.AddTab()
-    local tab = CreateControlFromVirtual("$(parent)Tab", GJTDL_MainWindowControlSwitcher, "GJTDL_ListTab", m_currentTabCount + 1)
+    local tab =
+        CreateControlFromVirtual(
+        "$(parent)Tab",
+        GJTDL_MainWindowControlSwitcher,
+        "GJTDL_ListTab",
+        m_currentTabCount + 1
+    )
     if m_lastTab then
         tab:SetAnchor(LEFT, m_lastTab, RIGHT, 45, 0)
     else
@@ -73,30 +83,26 @@ function TodoList.MainWindow.AddTab()
 end
 
 function TodoList.MainWindow.ToggleCompletion(button)
-    -- TODO: ADD GREYING-OUT TEXT/BOX
-
     ZO_CheckButton_OnClicked(button)
+
+    -- TODO: ADD GREYING-OUT TEXT/BOX
     local checked = ZO_CheckButton_IsChecked(button)
     local editbox = button:GetParent():GetNamedChild("BoxEdit")
-    -- d(editbox:GetName())
-    -- d(parent:GetChild(2):GetName())
     if checked then
-        -- d("Checked!")
         editbox:SetEditEnabled(false)
         editbox:SetKeyboardEnabled(false)
         editbox:SetMouseEnabled(false)
     else
-        -- d("Unchecked!")
         editbox:SetEditEnabled(true)
         editbox:SetKeyboardEnabled(true)
         editbox:SetMouseEnabled(true)
     end
 end
 
-local function ShowTabEditBox(self, control)
+function TodoList.MainWindow.ShowTabEditBox(self, control)
     local tab = control
-    local backdrop = control:GetParent():GetChild(1)
-    local editbox = control:GetParent():GetChild(1):GetChild(1)
+    local backdrop = control:GetParent():GetNamedChild("Box")
+    local editbox = control:GetParent():GetNamedChild("BoxEdit")
 
     backdrop:SetHidden(false)
     editbox:SetHidden(false)
@@ -122,8 +128,8 @@ end
 
 function TodoList.MainWindow.ShowTabButton(control, shouldSave)
     local tab = control
-    local backdrop = control:GetParent():GetChild(1)
-    local editbox = control:GetParent():GetChild(1):GetChild(1)
+    local backdrop = control:GetParent():GetNamedChild("Box")
+    local editbox = control:GetParent():GetNamedChild("BoxEdit")
     local editText = editbox:GetText()
     local tabLabel = tab:GetLabelControl()
 
@@ -137,14 +143,12 @@ function TodoList.MainWindow.ShowTabButton(control, shouldSave)
         tab:SetDimensions(tabLabel:GetTextDimensions())
         tabLabel:SetDimensions(tabLabel:GetTextDimensions())
         tabLabel:ClearAnchors()
-        -- tabLabel:ClearHandlers()
         tabLabel:SetAnchor(LEFT, tab, RIGHT, 10, 0)
     end
 end
 
 function TodoList.MainWindow.Initialize()
     m_mainWindowControl = GJTDL_MainWindowControl
-    -- m_defaultHeight = m_mainWindowControl:GetHeight()
 
     m_mainWindowControl:ClearAnchors()
     m_mainWindowControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 20, 20)

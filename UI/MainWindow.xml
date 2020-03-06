@@ -1,5 +1,6 @@
 <GuiXml>
     <Controls>
+        <!-- ~~~~~~~~~~ LIST TICKBOX/CHECKBOX ~~~~~~~~~~ -->
         <Button name="GJTDL_ListTick" inherits="ZO_CheckButton" virtual="true">
             OVERRIDE THIS AND CALL ZO_CheckButton_OnClicked()!
             <OnClicked override="true">
@@ -7,16 +8,13 @@
             </OnClicked>
         </Button>
 
-        <!-- <Control name="GJTDL_ListItem" virtual="true">
-            <Controls>
-                <Button name="$(parent)Tick" inherits="GJTDL_ListTick" />
-            </Controls>
-        </Control> -->
-
         <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
-        <Button name="GJTDL_ListTab" inherits="ZO_ResizableTextTabButton" virtual="true" text="Tab">
+        <Control name="GJTDL_ListTab" inherits="ZO_ResizableTextTabButton" virtual="true" text="Tab">
             <OnMouseEnter />
-        </Button>
+            <OnMouseDoubleClick>
+                TodoList.MainWindow.ShowTabEditBox(self, control)
+            </OnMouseDoubleClick>
+        </Control>
 
         <!-- ~~~~~~~~~~ LIST ITEM ~~~~~~~~~~ -->
         <Control name="GJTDL_ListItem" virtual="true">
