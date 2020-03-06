@@ -17,11 +17,12 @@ TodoList = {
 function TodoList:Initialize()
     zo_callLater(
         function()
-            m_mainWindow.Initialize()
+            d("Todo List Loaded sucessfully!")
         end,
         2000
     )
-    d("Todo List Loaded sucessfully!")
+    m_mainWindow.Initialize()
+    
 end
 
 function TodoList.OnAddOnLoaded(event, addonName)

@@ -43,14 +43,14 @@
         <TopLevelControl name="GJTDL_MainWindowControl" tier="HIGH" clampedToScreen="true" mouseEnabled="true" movable="true">
             <Dimensions x="400" y="500" />
             <OnMouseDoubleClick>
-                AddLine()
+                TodoList.MainWindow.AddLine()
             </OnMouseDoubleClick>
 
             <Controls>
                 <Backdrop name="$(parent)Background" inherits="ZO_DefaultBackdrop" />
 
                 <Label name="$(parent)Label" font="ZoFontAnnounceMedium" text="To-Do:">
-                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20"/>
+                    <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" yOffset="20" />
                 </Label>
 
                 <Control name="$(parent)Switcher">
