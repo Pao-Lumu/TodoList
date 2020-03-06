@@ -9,13 +9,13 @@
 ## APIVersion: 100030
 ## Version: 0.1
 ## SavedVariables: GJTDL_vars, GJTDL_items
-## DependsOn: LibSavedVars LibAddonMenu-2.0
+## DependsOn: LibSavedVars
 
 TodoList.lua
 
 UI/MainWindow.xml
 UI/MainWindow.lua
-UI/ListItem.xml
+UI/Templates.xml
 
 ## Constants.lua
 

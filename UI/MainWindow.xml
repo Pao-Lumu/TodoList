@@ -1,48 +1,32 @@
 <GuiXml>
     <Controls>
-        <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
-        <Control name="Tab" virtual="true">
-            <Dimensions y="30" />
-            <Anchor point="TOPLEFT" />
-            <Anchor point="TOPRIGHT" />
+        <Button name="GJTDL_ListTick" inherits="ZO_CheckButton" virtual="true">
+            OVERRIDE THIS AND CALL ZO_CheckButton_OnClicked()!
+            <OnClicked override="true">
+                ToggleCompletion(self, button)
+            </OnClicked>
+        </Button>
+
+        <!-- <Control name="GJTDL_ListItem" virtual="true">
             <Controls>
-                <!-- If Double-clicked: Edit Tab Name -->
-                <Button name="$(parent)Button" resizetoFitDescendents="true">
-                    <Dimensions x="30" y="30" />
-                    <Anchor point="LEFT" />
-
-                    <OnMouseDoubleClick>
-                        ShowTabEditBox(self, control)
-                    </OnMouseDoubleClick>
-                </Button>
-                <EditBox name="$(parent)Edit" inherits="ZO_DefaultEditForBackdrop" maxInputCharacters="15">
-                    <OnFocusLost>
-                        ShowTabButton(self, true)
-                    </OnFocusLost>
-                    <OnEnter>
-                        ShowTabButton(self, true)
-                    </OnEnter>
-                    <OnEscape>
-                        ShowTabButton(self, false)
-                    </OnEscape>
-                </EditBox>
-
+                <Button name="$(parent)Tick" inherits="GJTDL_ListTick" />
             </Controls>
-        </Control>
+        </Control> -->
 
+        <!-- ~~~~~~~~~~ LIST TAB ~~~~~~~~~~ -->
+        <Button name="GJTDL_ListTab" inherits="ZO_ResizableTextTabButton" virtual="true" text="Tab">
+        </Button>
 
         <!-- ~~~~~~~~~~ LIST ITEM ~~~~~~~~~~ -->
-        <Control name="Item" virtual="true">
+        <Control name="GJTDL_ListItem" virtual="true">
             <Dimensions y="30" />
             <Anchor point="TOPLEFT" />
             <Anchor point="TOPRIGHT" />
             <Controls>
 
-                <Button name="$(parent)Tick">
+                <Button name="$(parent)Tick" inherits="GJTDL_ListTick">
                     <Dimensions x="30" y="30" />
                     <Anchor point="LEFT" xOffset="-30"/>
-
-                    <Textures normal="esoui\art\buttons\checkbox_unchecked.dds" mouseOver="esoui\art\buttons\checkbox_mouseover.dds" pressed="esoui\art\buttons\checkbox_indeterminate.dds" disabled="esoui\art\buttons\checkbox_checked.dds" />
                 </Button>
 
                 <Backdrop name="$(parent)Box" inherits="ZO_SingleLineEditBackdrop_Keyboard">
@@ -51,13 +35,10 @@
 
                     <Controls>
                         <EditBox name="$(parent)Edit" inherits="ZO_DefaultEditForBackdrop" maxInputCharacters="50" />
-
                     </Controls>
                 </Backdrop>
             </Controls>
         </Control>
-
-        <!-- Primary Definition -->
 
         <TopLevelControl name="GJTDL_MainWindowControl" tier="HIGH" clampedToScreen="true" mouseEnabled="true" movable="true">
             <Dimensions x="400" y="500" />
@@ -74,15 +55,15 @@
 
                 <Control name="$(parent)Switcher">
                     <Dimensions y="30" />
-                    <Anchor point="TOPLEFT" xOffset="20" yOffset="30">
-                    </Control>
+                    <Anchor point="TOPLEFT" xOffset="20" yOffset="30" />
+                </Control>
 
-                    <Control name="$(parent)List">
-                        <Dimensions y="450" />
-                        <Anchor point="BOTTOMLEFT" />
-                        <Anchor point="BOTTOMRIGHT" />
-                    </Control>
-                </Controls>
-            </TopLevelControl>
-        </Controls>
-    </GuiXml>
+                <Control name="$(parent)List">
+                    <Dimensions y="450" />
+                    <Anchor point="BOTTOMLEFT" />
+                    <Anchor point="BOTTOMRIGHT" />
+                </Control>
+            </Controls>
+        </TopLevelControl>
+    </Controls>
+</GuiXml>

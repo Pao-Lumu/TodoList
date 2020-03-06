@@ -1,4 +1,4 @@
-local m_defaultHeight
+local m_defaultHeight = 500
 local m_mainWindowControl
 local m_minimizedWindowControl
 
@@ -51,17 +51,30 @@ end
 TodoList.MainWindow.SetWindowHeight = SetWindowHeight
 
 local function AddLine()
-    local line = CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "Item", m_currentListLength + 1)
+    local line = CreateControlFromVirtual("$(parent)Item", GJTDL_MainWindowControlList, "GJTDL_ListItem", m_currentListLength + 1)
     line:SetAnchor(TOPLEFT, GJTDL_MainWindowControlList, TOPLEFT, 35, 40 * m_currentListLength)
     line:SetAnchor(TOPRIGHT, GJTDL_MainWindowControlList, TOPRIGHT, -15, 40 * m_currentListLength)
     m_currentListLength = m_currentListLength + 1
 end
 
 local function AddTab()
-    local tab = CreateControlFromVirtual("$(parent)Tab", GJTDL_MainWindowControlSwitcher, "Tab", m_currentTabCount + 1)
+    local tab = CreateControlFromVirtual("$(parent)Tab", GJTDL_MainWindowControlSwitcher, "GJTDL_ListTab", m_currentTabCount + 1)
     tab:SetAnchor(LEFT, GJTDL_MainWindowControlSwitcher, LEFT, 10, 40 * m_currentTabCount)
+    d(m_currentTabCount)
     tab:SetText("Tab " .. (m_currentTabCount + 1))
     m_currentTabCount = m_currentTabCount + 1
+end
+
+function ToggleCompletion(button)
+    ZO_CheckButton_OnClicked(button)
+    local checked = ZO_CheckButton_IsChecked(button)
+    button:GetParent():GetNamedChild("$(parent)")
+    if checked then
+        d("Checked!")
+
+    else
+        d("Unchecked!")
+    end
 end
 
 local function ShowTabEditBox(self, control)
@@ -85,7 +98,7 @@ end
 
 function TodoList.MainWindow.Initialize()
     m_mainWindowControl = GJTDL_MainWindowControl
-    m_defaultHeight = m_mainWindowControl:GetHeight()
+    -- m_defaultHeight = m_mainWindowControl:GetHeight()
 
     m_mainWindowControl:ClearAnchors()
     m_mainWindowControl:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, 20, 20)
